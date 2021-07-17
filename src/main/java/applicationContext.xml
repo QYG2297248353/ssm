@@ -17,8 +17,45 @@
 	<context:annotation-config />
 	<context:component-scan
 		base-package="com.ms.service" />
-	<!-- 配置数据源 -->
+	<!-- 配置数据池连接 -->
 	<bean id="dataSource"
+		class="com.alibaba.druid.pool.DruidDataSource" init-method="init"
+		destroy-method="close">
+		<!-- 基本属性 url、user、password -->
+		<property name="url"
+			value="jdbc:mysql://localhost:3306/ssm?characterEncoding=UTF-8" />
+		<property name="username" value="root" />
+		<property name="password" value="" />
+		<property name="driverClassName"
+			value="com.mysql.jdbc.Driver" />
+
+		<!-- 配置初始化大小、最小、最大 -->
+		<property name="initialSize" value="3" />
+		<property name="minIdle" value="3" />
+		<property name="maxActive" value="20" />
+
+		<!-- 配置获取连接等待超时的时间 -->
+		<property name="maxWait" value="60000" />
+
+		<!-- 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒 -->
+		<property name="timeBetweenEvictionRunsMillis" value="60000" />
+
+		<!-- 配置一个连接在池中最小生存的时间，单位是毫秒 -->
+		<property name="minEvictableIdleTimeMillis" value="300000" />
+
+		<property name="validationQuery" value="SELECT 1" />
+		<property name="testWhileIdle" value="true" />
+		<property name="testOnBorrow" value="false" />
+		<property name="testOnReturn" value="false" />
+
+		<!-- 打开PSCache，并且指定每个连接上PSCache的大小 -->
+		<property name="poolPreparedStatements" value="true" />
+		<property name="maxPoolPreparedStatementPerConnectionSize"
+			value="20" />
+	</bean>
+
+	<!-- 配置数据库连接 -->
+	<!-- <bean id="dataSource"
 		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
 		<property name="driverClassName">
 			<value>com.mysql.jdbc.Driver</value>
@@ -34,7 +71,8 @@
 		<property name="password">
 			<value></value>
 		</property>
-	</bean>
+	</bean> -->
+	
 	<!-- 扫描存放SQL语句的Category.xml -->
 	<bean id="sqlSession"
 		class="org.mybatis.spring.SqlSessionFactoryBean">
@@ -42,6 +80,17 @@
 		<property name="dataSource" ref="dataSource" />
 		<property name="mapperLocations"
 			value="classpath:com/ms/mapper/*.xml" />
+		<property name="plugins">
+			<array>
+				<bean class="com.github.pagehelper.PageInterceptor">
+					<property name="properties">
+						<!--使用下面的方式配置参数，一行配置一个 -->
+						<value>
+						</value>
+					</property>
+				</bean>
+			</array>
+		</property>
 	</bean>
 	<!-- 扫描Mapper，并将其生命周期纳入Spring的管理 -->
 	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
