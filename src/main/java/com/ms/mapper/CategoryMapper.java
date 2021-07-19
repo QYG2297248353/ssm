@@ -5,6 +5,7 @@ import java.util.List;
 import com.ms.pojo.Category;
 
 public interface CategoryMapper {
+	
 	public int add(Category category); 
     
     public void delete(int id); 

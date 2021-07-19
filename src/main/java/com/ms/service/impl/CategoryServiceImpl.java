@@ -18,5 +18,30 @@ public class CategoryServiceImpl implements CategoryService {
 		// TODO Auto-generated method stub
 		return categoryMapper.list();
 	}
+
+	@Override
+	public void add(Category category) {
+		// TODO Auto-generated method stub
+		categoryMapper.add(category);
+	}
+
+	@Override
+	public Category get(int id) {
+		// TODO Auto-generated method stub
+		return categoryMapper.get(id);
+	}
+
+	@Override
+	public void update(Category category) {
+		// TODO Auto-generated method stub
+		categoryMapper.update(category);
+	}
+
+	@Override
+	public void delete(Category category) {
+		// TODO Auto-generated method stub
+		categoryMapper.delete(category.getId());
+	}
 	
 }
+ 
