@@ -42,6 +42,30 @@ public class CategoryServiceImpl implements CategoryService {
 		// TODO Auto-generated method stub
 		categoryMapper.delete(category.getId());
 	}
+
+	@Override
+//	@Transactional(propagation = Propagation.REQUIRED,rollbackForClassName = "Exception")
+	public void addTwo() {
+		// TODO Auto-generated method stub
+		Category c1 = new Category();
+		c1.setName("字数较短");
+		categoryMapper.add(c1);
+		
+		Category c2 = new Category();
+		c2.setName("字数太长了，名字长对应字段放不下,名字长对应字段放不下,名字长对应字段放不下,"
+				+ "名字长对应字段放不下,名字长对应字段放不下,名字长对应字段放不下,名字长对应字段放不下名字长对应字段放不下,"
+				+ "名字长对应字段放不下,名字长对应字段放不下,名字长对应字段放不下,名字长对应字段放不下");
+		categoryMapper.add(c2);
+	}
+
+	@Override
+	public void deleteAll() {
+		// TODO Auto-generated method stub
+		List<Category> cs=list();
+		for (Category c : cs) {
+			categoryMapper.delete(c.getId());
+		}
+	}
 	
 }
  
