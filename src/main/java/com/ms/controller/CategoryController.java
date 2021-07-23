@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -55,38 +56,37 @@ public class CategoryController {
 	@Autowired
 	CategoryService categoryService;
 	
-	@RequestMapping("deleteCategory")
+	@RequestMapping(value="/categories/{id}",method=RequestMethod.DELETE)
 	public ModelAndView deleteCategory(Category category){
 		categoryService.delete(category);
-		ModelAndView mav = new ModelAndView("redirect:/listCategory");
+		ModelAndView mav = new ModelAndView("redirect:/categories");
 		return mav;
 	}
 	
-	@RequestMapping("editCategory")
+	@RequestMapping(value="/categories/{id}",method=RequestMethod.GET)
 	public ModelAndView editCategory(Category category){
 		Category c= categoryService.get(category.getId());
 		ModelAndView mav = new ModelAndView("editCategory");
 		mav.addObject("c", c);
 		return mav;
 	}	
-	@RequestMapping("updateCategory")
+	@RequestMapping(value="/categories/{id}",method=RequestMethod.PUT)
 	public ModelAndView updateCategory(Category category){
 		categoryService.update(category);
-		ModelAndView mav = new ModelAndView("redirect:/listCategory");
+		ModelAndView mav = new ModelAndView("redirect:/categories");
 		return mav;
 	}	
 	
 	
-	@RequestMapping("addCategory")
+	@RequestMapping(value="/categories",method=RequestMethod.POST)
 	public ModelAndView addCategory(Category category) {
 		categoryService.add(category);
-		ModelAndView mav = new ModelAndView("redirect:/listCategory");
+		ModelAndView mav = new ModelAndView("redirect:/categories");
 		return mav;
 	}
 
-	@RequestMapping("listCategory")
+	@RequestMapping(value="/categories",method=RequestMethod.GET)
 	public ModelAndView listCategory(Page page) {
-		System.out.println("输出开始1："+page.getStart());
 //		显示判断->避免负数
 		int starpage=page.getStart();
 		ModelAndView mav = new ModelAndView();
@@ -109,7 +109,6 @@ public class CategoryController {
 		if (starpage<=0) {
 			page.setStart(5);
 		}
-		System.out.println("输出开始2："+page.getStart());
 		mav.addObject("cs", cs);
 		mav.setViewName("listCategory");
 		return mav;

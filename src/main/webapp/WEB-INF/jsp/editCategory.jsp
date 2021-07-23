@@ -8,10 +8,10 @@
 	
 	<div style="text-align:center;margin-top:40px">
 		
-		<form method="post" action="updateCategory">
+		<form method="post" action="../categories/${c.id}">
+			<input type="hidden" name="_method" value="PUT">
 			分类名称： <input name="name" value="${c.name}" type="text"> <br><br>
-			<input type="hidden" value="${c.id}" name="id">
-			<input type="submit" value="增加分类">
+			<input type="submit" value="修改分类">
 		</form>
 
 	</div>	
